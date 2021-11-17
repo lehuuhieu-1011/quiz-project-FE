@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Login Form</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="./css/styleLogin.css" />
+    </head>
+    <body>
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="./quiz.html" style="color: white">Quiz</a>
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <!-- <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li> -->
+                    </ul>
+                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
+                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                </div>
+            </nav>
+        </div>
+        <div class="center">
+            <h1>Login Here</h1>
+            <form>
+                <div class="txt_field">
+                    <input type="text" class="username" required />
+                    <label>Username</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" class="password" required />
+                    <label>Password</label>
+                </div>
+                <p class="register">You don't have account? <a href="./register.html"> Register Here</a></p>
+                <div class="error-message" style="color: red"></div>
+                <input type="submit" value="Login" />
+            </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const api = 'https://quiz-project.azurewebsites.net/login';
+                // const api = 'http://localhost:8080/login';
+                const username = document.querySelector('.username').value;
+                const password = document.querySelector('.password').value;
+
+                try {
+                    const res = await axios.post(api, {
+                        username,
+                        password,
+                    });
+                    localStorage.setItem('token', res.data);
+                    document.location.assign('./quiz.html');
+                } catch (error) {
+                    console.log(error.response.status);
+                    if (error.response.status == 400) {
+                        const error_message = document.querySelector('.error-message');
+                        error_message.innerHTML = 'Username or password wrong.';
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Register Form</title>
+        <link rel="stylesheet" href="./css/styleRegister.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="./quiz.html" style="color: white">Quiz</a>
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <!-- <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li> -->
+                    </ul>
+                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
+                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                </div>
+            </nav>
+        </div>
+        <div class="center">
+            <h1>Register</h1>
+            <!-- <form method="post"> -->
+            <form>
+                <div class="txt_field">
+                    <input type="text" class="username" required />
+                    <label>Username</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" class="password" required />
+                    <label>Password</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" class="confirmPassword" required />
+                    <label>Confirm Password</label>
+                </div>
+                <p class="login-register">Have an account? <a href="./login.html"> Login Here</a></p>
+                <input type="submit" value="Register" class="btnRegister" />
+            </form>
+        </div>
+
+        <div class="modal" id="exampleModal">
+            <div class="modal-dialog modal-dialog-centered" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="okModal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // const api = 'http://localhost:8080/register';
+                const api = 'https://quiz-project.azurewebsites.net/register';
+
+                const username = document.querySelector('.username').value;
+                const password = document.querySelector('.password').value;
+                const confirmPassword = document.querySelector('.confirmPassword').value;
+
+                const modal = $('#exampleModal');
+                const btnOpenModal = $('.btnRegister');
+                const closeModal = $('.close');
+                const okModal = $('#okModal');
+
+                const modalBody = document.querySelector('.modal-body');
+
+                if (password != confirmPassword) {
+                    (function () {
+                        modal.show();
+                    })();
+                    modalBody.innerHTML = 'Password and Confirm Password not match.';
+
+                    closeModal.click(function () {
+                        modal.hide();
+                    });
+
+                    okModal.click(function () {
+                        modal.hide();
+                    });
+                } else {
+                    try {
+                        const response = await axios.post(api, {
+                            username,
+                            password,
+                        });
+
+                        (function () {
+                            modal.show();
+                            modalBody.innerHTML = 'You have successfully created an account.';
+                        })();
+
+                        closeModal.click(function () {
+                            modal.hide();
+                            window.location.replace('./login.html');
+                        });
+
+                        okModal.click(function () {
+                            modal.hide();
+                            window.location.replace('./login.html');
+                        });
+                    } catch (error) {
+                        console.log(error.response.status);
+                        if (error.response.status == 400) {
+                            const error_message = document.querySelector('.error-message');
+                            error_message.innerHTML = error.response.data;
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

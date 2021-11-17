@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="./css/styleQuestion.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Question Page</title>
+    </head>
+    <body style="background-color: #dcdcdc">
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="./quiz.html">Quiz</a>
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <!-- <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li> -->
+                    </ul>
+                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
+                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                </div>
+            </nav>
+            <!-- <div class="h4 font-weight-bold" style="font-size: 13px">${index}. ${x.question}</div> -->
+        </div>
+        <div id="loader"></div>
+
+        <div class="template-code"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            (async function () {
+                const template_code = document.querySelector('.template-code');
+                const id = localStorage.getItem('id');
+                localStorage.removeItem('id');
+
+                const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
+                // const api = `http://localhost:8080/admin/course/${id}`;
+                const response = await axios(api);
+                const data = response.data;
+                console.log(data);
+
+                var index = 0;
+                if (data.length == 0) {
+                    return;
+                }
+                const loader = document.getElementById('loader');
+
+                loader.style.display = 'none';
+                template_code.innerHTML = `
+                <div style="padding: 20px"></div>
+                <div class="wrapper2" style="height: 100px; width: 800px; background-color: white; border-radius: 7px">
+                    <div class="shadow-md">
+                        <div class="h4 font-weight-bold title" style="font-size: 25px; text-align: center"></div>
+                    </div>
+                </div>
+                <div class="body"></div>
+                <button class="custom-btn btn-6" style="border-radius: 10px; margin-left: 730px; height: 50px; width: 200px; background-color: #deb887">
+                    <span> Submit</span>
+                </button>
+                <div style="padding: 50px"></div>
+                `;
+                const title = document.querySelector('.title');
+                const body = document.querySelector('.body');
+                title.innerHTML = data[0].coursesQuiz.name;
+                data.map((x) => {
+                    index++;
+                    body.innerHTML += `
+                        <div class="wrapper element" style=" width: 800px; background-color: white; border-radius: 7px">
+                            <div class="shadow-md">
+                                <div class="text-center"></div>
+                                <div class="h4 font-weight-bold" style="font-size: 13px">
+                                    ${
+                                        x.image == ''
+                                            ? `<div class="h4 font-weight-bold" style="font-size: 13px">${index}. ${x.question}</div>`
+                                            : `<div class="box">
+                                            <img src="${x.image}" alt="${x.image}" width="100px" style="padding-right: 10px"/>
+                                            <span>${index}. ${x.question}</span>
+                                        </div>`
+                                    }
+                                </div>
+                                <hr />
+                                <div class="">
+                                    <form>
+                                        ${
+                                            x.answerA == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 13px"
+                                            >${x.answerA} <input type="radio" name="radio" id="rd" /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerB == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 13px"
+                                            >${x.answerB} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerC == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 13px"
+                                            >${x.answerC} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerD == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 13px"
+                                            >${x.answerD} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                    `;
+                });
+            })();
+        </script>
+    </body>
+</html>

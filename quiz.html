@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="./css/styleQuiz.css" />
+        <title>Quiz</title>
+    </head>
+    <body>
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="./quiz.html">Quiz</a>
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <!-- <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li> -->
+                    </ul>
+                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
+                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                </div>
+            </nav>
+        </div>
+        <div id="loader"></div>
+        <div class="container">
+            <h1 style="text-align: center; padding-top: 80px">ALL QUIZ</h1>
+            <div style="padding-top: 45px">
+                <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+            (async function () {
+                const loader = document.getElementById('loader');
+
+                const card_desk = document.querySelector('.dom-card');
+                const api = 'https://quiz-project.azurewebsites.net/admin/course';
+                // const api = 'http://localhost:8080/admin/course';
+                try {
+                    const response = await axios(api);
+                    console.log(response.data);
+                    const data = response.data;
+                    loader.style.display = 'none';
+                    data.map((x) => {
+                        card_desk.innerHTML += `
+                        <div class="col mb-4">
+                            <div class="card h-100" style="cursor: pointer" onclick="goToQuestion(${x.id})">
+                                <img src="${x.image}" class="card-img-top" alt="${x.image}" />
+                                <div class="card-body">
+                                    <p class="card-text">QUIZ</p>
+                                    <h5 class="card-title">${x.name}</h5>
+                                    <p class="card-text">
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            })();
+        </script>
+
+        <script type="application/javascript">
+            function goToQuestion(id) {
+                localStorage.setItem('id', id);
+                console.log(id);
+                document.location.assign('./question.html');
+            }
+        </script>
+
+        <!-- <div class="col mb-4">
+            <div class="card h-100">
+                <img src="..." class="card-img-top" alt="..." />
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                </div>
+            </div>
+        </div> -->
+    </body>
+</html>
