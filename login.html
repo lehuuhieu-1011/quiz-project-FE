@@ -73,6 +73,7 @@
                         password,
                     });
                     localStorage.setItem('token', res.data);
+                    localStorage.setItem('username', username);
                     document.location.assign('./quiz.html');
                 } catch (error) {
                     console.log(error.response.status);

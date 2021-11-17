@@ -35,8 +35,7 @@
                             <a class="nav-link disabled">Disabled</a>
                         </li> -->
                     </ul>
-                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
-                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                    <div class="infoUser" style="display: flex; align-items: center"></div>
                 </div>
             </nav>
         </div>
@@ -89,14 +88,31 @@
             })();
         </script>
 
+        <script>
+            const infoUser = document.querySelector('.infoUser');
+            if (localStorage.getItem('username') == null) {
+                infoUser.innerHTML = `
+                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
+                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                `;
+            } else {
+                infoUser.innerHTML = `
+                <div style="font-weight: bold;">Username: ${localStorage.getItem('username')}</div>
+                <a class="btn btn-success my-2 my-sm-0 ml-2" href="./login.html" onclick="logout()">Logout</a>
+                `;
+            }
+        </script>
+
         <script type="application/javascript">
             function goToQuestion(id) {
                 localStorage.setItem('id', id);
                 console.log(id);
                 document.location.assign('./question.html');
             }
+            function logout() {
+                localStorage.clear();
+            }
         </script>
-
         <!-- <div class="col mb-4">
             <div class="card h-100">
                 <img src="..." class="card-img-top" alt="..." />
