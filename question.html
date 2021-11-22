@@ -38,6 +38,24 @@
         <div id="loader"></div>
 
         <div class="template-code"></div>
+
+        <div class="modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Your Scores</h5>
+                        <button onclick="closeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button onclick="okModal()" type="button" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="small text-center text-muted">Nhóm 7 - Quiz Game Assginment</div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -45,7 +63,7 @@
             (async function () {
                 const template_code = document.querySelector('.template-code');
                 const id = localStorage.getItem('id');
-                localStorage.removeItem('id');
+                // localStorage.removeItem('id');
 
                 const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
                 // const api = `http://localhost:8080/admin/course/${id}`;
@@ -68,7 +86,7 @@
                     </div>
                 </div>
                 <div class="body"></div>
-                <button class="custom-btn btn-6" style="border-radius: 10px; margin-left: 1200px; height: 50px; width: 200px; background: linear-gradient(45deg,   #59ab6e 0%,rgba(66, 245, 189,0.4) 100%);">
+                <button onclick="submit()" class="custom-btn btn-6" style="border-radius: 10px; margin-left: 1200px; height: 50px; width: 200px; background: linear-gradient(45deg,   #59ab6e 0%,rgba(66, 245, 189,0.4) 100%);">
                     <span> Submit</span>
                 </button>
                 <div style="padding: 50px"></div>
@@ -99,7 +117,7 @@
                                             x.answerA == ''
                                                 ? ''
                                                 : `<label class="options" style="font-size: 15px"
-                                            >${x.answerA} <input type="radio" name="radio" id="rd" /> <span class="checkmark"></span>
+                                            >${x.answerA} <input type="radio" name="radio" id="${x.id}" value="${x.answerA}" /> <span class="checkmark"></span>
                                         </label>
                                         <br/>`
                                         }
@@ -107,7 +125,7 @@
                                             x.answerB == ''
                                                 ? ''
                                                 : `<label class="options" style="font-size: 15px"
-                                            >${x.answerB} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                            >${x.answerB} <input type="radio" name="radio" id="${x.id}" value="${x.answerB}" /> <span class="checkmark"></span>
                                         </label>
                                         <br/>`
                                         }
@@ -115,15 +133,15 @@
                                             x.answerC == ''
                                                 ? ''
                                                 : `<label class="options" style="font-size: 15px"
-                                            >${x.answerC} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                            >${x.answerC} <input type="radio" name="radio" id="${x.id}" value="${x.answerC}" /> <span class="checkmark"></span>
                                         </label>
                                         <br/>`
                                         }
                                         ${
                                             x.answerD == ''
                                                 ? ''
-                                                : `<label class="options" style="font-size: 13px"
-                                            >${x.answerD} <input type="radio" name="radio" id="rd"  /> <span class="checkmark"></span>
+                                                : `<label class="options" style="font-size: 15px"
+                                            >${x.answerD} <input type="radio" name="radio" id="${x.id}" value="${x.answerD}" /> <span class="checkmark"></span>
                                         </label>
                                         <br/>`
                                         }
@@ -148,6 +166,7 @@
                         time001.innerHTML = `${minutes} : ${seconds}`;
                         window.clearInterval(update);
                         console.log('done');
+                        submit();
                     } else {
                         time001.innerHTML = `${minutes} : ${seconds}`;
                     }
@@ -174,6 +193,62 @@
         <script type="application/javascript">
             function logout() {
                 localStorage.clear();
+            }
+
+            async function submit() {
+                const storeAnswer = new Map();
+                var temp = 0;
+                var radios = document.getElementsByTagName('input');
+                for (i = 0; i < radios.length; i++) {
+                    if (radios[i].type == 'radio' && radios[i].checked) {
+                        storeAnswer.set(radios[i].id, radios[i].value);
+                    }
+                }
+
+                var scores = 0;
+                const id = localStorage.getItem('id');
+
+                const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
+                const response = await axios(api);
+                const data = response.data;
+                console.log(storeAnswer);
+                data.map((element) => {
+                    if (storeAnswer.get(`${element.id}`) == element.correct_Answer) {
+                        scores += element.point;
+                    }
+                });
+                console.log(scores);
+
+                const modal = $('.modal');
+                const modalBody = document.querySelector('.modal-body');
+                const closeModal = document.querySelector('.closeModal');
+                const okModal = document.querySelector('.okModal');
+                (function () {
+                    modal.show();
+                    modalBody.innerHTML = `<p>You have ${scores} scores</p>`;
+                })();
+
+                // closeModal.click(function () {
+                //     modal.hide();
+                //     // window.location.replace('./login.html');
+                // });
+
+                // okModal.click(function () {
+                //     modal.hide();
+                //     // window.location.replace('./login.html');
+                // });
+            }
+
+            function closeModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
+            }
+
+            function okModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
             }
         </script>
     </body>
