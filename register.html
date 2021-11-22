@@ -5,41 +5,21 @@
         <title>Register Form</title>
         <link rel="stylesheet" href="./css/styleRegister.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+         <link href="./css/styleProfile.css" rel="stylesheet" />
+        <link href="./css/stylesProfile.css" rel="stylesheet" />
     </head>
-    <body>
-        <div class="header">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarTogglerDemo01"
-                    aria-controls="navbarTogglerDemo01"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
+    <body style="background: white">
+           <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style=" box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px   ;background: white">
+            <div class="container">
+                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse">
-                    <a class="navbar-brand" href="./quiz.html" style="color: white">Quiz</a>
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <!-- <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li> -->
-                    </ul>
-                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
-                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
-                </div>
-            </nav>
-        </div>
-        <div class="center">
-            <h1>Register</h1>
+               
+            </div>
+        </nav>
+        <div class="center" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+            <h1 style="padding-top: 10px;color: #59ab6e">Register</h1>
             <!-- <form method="post"> -->
             <form>
                 <div class="txt_field">
@@ -54,8 +34,8 @@
                     <input type="password" class="confirmPassword" required />
                     <label>Confirm Password</label>
                 </div>
-                <p class="login-register">Have an account? <a href="./login.html"> Login Here</a></p>
-                <input type="submit" value="Register" class="btnRegister" />
+                <p class="login-register">Have an account? <a href="./login.html" style="color: #59ab6e" > Login Here</a></p>
+                <input type="submit" value="Register" style="background:linear-gradient(45deg,   #59ab6e 0%,rgba(66, 245, 189,0.4) 100%)" class="btnRegister" />
             </form>
         </div>
 
@@ -143,5 +123,6 @@
                 }
             });
         </script>
+        
     </body>
 </html>

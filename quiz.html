@@ -1,47 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+        <link href="./css/styleProfile.css" rel="stylesheet" />
+        <link href="./css/stylesProfile.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/styleQuiz.css" />
+        <link href="css/main.css" rel="stylesheet" />
+        <link rel="stylesheet" href="./css/styleQuiz.css" />
+        <meta name="author" content="colorlib.com">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      
+
         <title>Quiz</title>
     </head>
-    <body>
-        <div class="header">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10">
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarTogglerDemo01"
-                    aria-controls="navbarTogglerDemo01"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
+    <body style="background: white">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; ;background: white">
+            <div class="container">
+                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse">
-                    <a class="navbar-brand" href="./quiz.html">Quiz</a>
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <!-- <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li> -->
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="./profile.html" style="font-size: 20px; color: #59ab6e">Profile</a></li>
+  
+                        <li class="infoUser" style="display: flex; align-items: center; font-size: 20px" ></li>
                     </ul>
-                    <div class="infoUser" style="display: flex; align-items: center"></div>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </nav>
         <div id="loader"></div>
         <div class="container">
-            <h1 style="text-align: center; padding-top: 80px">ALL QUIZ</h1>
+
+            <div class="s004" style="padding-top: 100px" >
+                <form>
+                    <fieldset>
+                        <legend>ALL QUIZ</legend>
+                        <div class="inner-form" style="border-radius: 50px">
+                            <div class="input-field">
+                                <input class="form-control" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
+                                <button class="btn-search" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+
             <div style="padding-top: 45px">
                 <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
             </div>
@@ -66,9 +84,9 @@
                     loader.style.display = 'none';
                     data.map((x) => {
                         card_desk.innerHTML += `
-                        <div class="col mb-4">
-                            <div class="card h-100" style="cursor: pointer" onclick="goToQuestion(${x.id})">
-                                <img src="${x.image}" class="card-img-top" alt="${x.image}" />
+                        <div class="col mb-4"   >
+                            <div class="card h-100"  style="cursor: pointer;border-radius:20px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; " onclick="goToQuestion(${x.id})">
+                                <img src="${x.image}" class="card-img-top"style="cursor: pointer;border-radius:20px" alt="${x.image}" />
                                 <div class="card-body">
                                     <p class="card-text">QUIZ</p>
                                     <h5 class="card-title">${x.name}</h5>
@@ -79,7 +97,9 @@
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </div>
                             </div>
+                
                         </div>
+                
                     `;
                     });
                 } catch (error) {
@@ -92,25 +112,27 @@
             const infoUser = document.querySelector('.infoUser');
             if (localStorage.getItem('username') == null) {
                 infoUser.innerHTML = `
-                    <a class="btn btn-success my-2 my-sm-0 mx-4" href="./register.html">Register</a>
-                    <a class="btn btn-success my-2 my-sm-0" href="./login.html">Login</a>
+                    <li class="nav-item"><a class="nav-link"  style="font-size: 20px; color: #59ab6e" href="./register.html">Register</a></li>
+                    <li class="nav-item"><a class="nav-link"  style="font-size: 20px; color: #59ab6e"  href="./login.html">Login</a></li>
                 `;
             } else {
                 infoUser.innerHTML = `
-                <div style="font-weight: bold;">Username: ${localStorage.getItem('username')}</div>
-                <a class="btn btn-success my-2 my-sm-0 ml-2" href="./login.html" onclick="logout()">Logout</a>
+                
+                <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./login.html" onclick="logout()">Logout</a></li>
+                <li class="nav-item"><a style="color: black;font-weight: bold;font-size: 20px" >Username&nbsp:&nbsp${localStorage.getItem('username')}</a></li>
+                
                 `;
             }
         </script>
 
         <script type="application/javascript">
             function goToQuestion(id) {
-                localStorage.setItem('id', id);
-                console.log(id);
-                document.location.assign('./question.html');
+            localStorage.setItem('id', id);
+            console.log(id);
+            document.location.assign('./question.html');
             }
             function logout() {
-                localStorage.clear();
+            localStorage.clear();
             }
         </script>
         <!-- <div class="col mb-4">
@@ -122,5 +144,7 @@
                 </div>
             </div>
         </div> -->
+        <div class="small text-center text-muted">Nhóm 7 - Quiz Game Assginment</div>
+
     </body>
 </html>
