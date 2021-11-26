@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#myModal" style="font-size: 20px; color: #59ab6e">Create</a>
+                            <a class="nav-link" data-toggle="modal" data-target="#createModal" style="font-size: 20px; color: #59ab6e">Create</a>
                         </li>
                         <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
                     </ul>
@@ -283,38 +283,37 @@
         </script>
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
-                <!-- Modal content-->
                 <div class="modal-content" style="border-radius: 25px; width: 700px; height: 700px">
                     <div class="wrapper element" style="height: 700px; width: 600px; background-color: white; border-radius: 25px">
                         <div class="shadow-md">
                             <div class="">
                                 <form id="modal-form">
                                     Question:
-                                    <div class="txt_field" style="font-size: 20px"><input type="text" class="username" name="question" required /></div>
+                                    <div class="txt_field" style="font-size: 20px"><input type="text" class="username" name="question" /></div>
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="answerA" required />
+                                        <input type="text" class="username" name="answerA" />
                                         <label>Answer A:</label>
                                     </div>
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="answerB" required />
+                                        <input type="text" class="username" name="answerB" />
                                         <label>Answer B:</label>
                                     </div>
 
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="answerC" required />
+                                        <input type="text" class="username" name="answerC" />
                                         <label>Answer C:</label>
                                     </div>
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="answerD" required />
+                                        <input type="text" class="username" name="answerD" />
                                         <label>Answer D:</label>
                                     </div>
 
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="correctAnswer" required />
+                                        <input type="text" class="username" name="correctAnswer" />
                                         <label>Correct Anwser</label>
                                     </div>
                                     <div class="txt_field" style="width: 300px">
-                                        <input type="text" class="username" name="point" required />
+                                        <input type="text" class="username" name="point" />
                                         <label>Point</label>
                                     </div>
                                     <img class="modal-img" src="" />
@@ -329,9 +328,57 @@
             </div>
         </div>
 
+        <div class="modal fade" id="createModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 700px; height: 700px">
+                    <div class="wrapper element" style="height: 700px; width: 600px; background-color: white; border-radius: 25px">
+                        <div class="shadow-md">
+                            <div class="">
+                                <form id="create-form">
+                                    Question:
+                                    <div class="txt_field" style="font-size: 20px">
+                                        <input type="text" class="username" name="create_question" />
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerA" />
+                                        <label>Answer A:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerB" />
+                                        <label>Answer B:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerC" />
+                                        <label>Answer C:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerD" />
+                                        <label>Answer D:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_correctAnswer" />
+                                        <label>Correct Anwser</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_point" />
+                                        <label>Point</label>
+                                    </div>
+                                    <img class="create-modal-img" src="" width="100px" />
+                                    <input type="file" name="file" class="create_image" />
+                                    <br />
+                                    <button class="custom-btn btn-13" style="margin-top: 20px" type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
-            // async function updateQuestion() {
-            // }
             const urlImage = document.querySelector('.image');
             urlImage.onchange = (e) => {
                 const [file] = urlImage.files;
@@ -339,7 +386,7 @@
                     document.querySelector('.modal-img').src = URL.createObjectURL(file);
                 }
             };
-            const modalForm = document.querySelector('form');
+            const modalForm = document.querySelector('#modal-form');
             modalForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const question = modalForm.question.value;
@@ -379,6 +426,73 @@
                     method: 'put',
                     data: {
                         id: idQuestion,
+                        question,
+                        answerA,
+                        answerB,
+                        answerC,
+                        answerD,
+                        correct_Answer: correctAnswer,
+                        image: imageUrl,
+                        point,
+                        coursesQuiz: {
+                            id: idCourse,
+                            name: 'string',
+                        },
+                    },
+                }).catch((error) => console.log(error));
+
+                localStorage.removeItem('id-question');
+                location.assign('manageQuestion.html');
+            });
+        </script>
+
+        <script>
+            const createUrlImage = document.querySelector('.create_image');
+            createUrlImage.onchange = (e) => {
+                const [file] = createUrlImage.files;
+                if (file) {
+                    document.querySelector('.create-modal-img').src = URL.createObjectURL(file);
+                }
+            };
+            const createModalForm = document.querySelector('#create-form');
+            createModalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log('ok');
+                const question = createModalForm.create_question.value;
+                const answerA = createModalForm.create_answerA.value;
+                const answerB = createModalForm.create_answerB.value;
+                const answerC = createModalForm.create_answerC.value;
+                const answerD = createModalForm.create_answerD.value;
+                const correctAnswer = createModalForm.create_correctAnswer.value;
+                const point = createModalForm.create_point.value;
+                // const urlImage = document.querySelector('.modal-img').src;
+                const imageFile = document.querySelector('.create_image').files[0];
+                const idCourse = localStorage.getItem('id');
+
+                var imageUrl = '';
+                if (imageFile != null) {
+                    const { url } = await axios
+                        .get('https://upload-image-123.azurewebsites.net/')
+                        .then((res) => res.data)
+                        .catch((error) => console.log(error));
+                    console.log(url);
+
+                    // post the image directly to the s3 bucket
+                    await axios(url, {
+                        method: 'put',
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        data: imageFile,
+                    });
+
+                    imageUrl = url.split('?')[0];
+                }
+
+                const urlApi = `https://quiz-project.azurewebsites.net/admin/addQuestion`;
+                await axios(urlApi, {
+                    method: 'post',
+                    data: {
                         question,
                         answerA,
                         answerB,
