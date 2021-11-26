@@ -6,13 +6,12 @@ and open the template in the editor.
 -->
 <html>
     <head>
-
         <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="./css/styleQuestion.css" />
         <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
-        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -28,13 +27,13 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./css/styleProfile.css" rel="stylesheet" />
         <link href="./css/stylesProfile.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <style> 
-
-        </style>
+        <style></style>
     </head>
+
     <body style="background: white">
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; ;background: white">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
             <div class="container">
                 <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -44,53 +43,195 @@ and open the template in the editor.
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="./manageQuiz.html" style="font-size: 20px; color: #59ab6e">ManageQuiz</a></li>
 
-                        <li id="time001" class="navbar-brand" style="display: flex; align-items: center; font-size: 20px; color:#59ab6e" ></li>
-                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color:#59ab6e" ></li>
+                        <li id="time001" class="navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="wrapper element" style="height: 600px; width: 1000px; background-color: white;border-radius: 7px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;margin-top: 100px" >
-            <div class="shadow-md ">
 
-                Question:<div class="txt_field" style="font-size: 20px"> <input type="text" class="username" required /> </div>
-                <hr>
-                <div class="">
-                    <form> 
-                        <div class="txt_field" style="width: 300px">
-                            <input type="text" class="username" required />
-                            <label>Answer A:</label>
-                        </div>
-                        <div class="txt_field" style="width: 300px">
-                            <input type="text" class="username" required />
-                            <label>Answer B:</label>
-                        </div>
+        <div class="new-form"></div>
 
-                        <div class="txt_field" style="width: 300px">
-                            <input type="text" class="username" required />
-                            <label>Answer C:</label>
-                        </div>
-                        <div class="txt_field" style="width: 300px">
-                            <input type="text" class="username" required />
-                            <label>Answer D:</label>
-                        </div>
-
-                        <div class="txt_field" style="width: 300px; margin-left: 70%" >
-                            <input type="text" class="username" required />
-                            <label>Correct Anwser</label>
-                        </div>
-                        <input type="file" name="file" />
-                    </form>
-
-                </div>
-            </div>
-
-
-
+        <div style="padding-bottom: 50px; margin-top: 100px">
+            <button class="custom-btn btn-13" style="margin-left: 39%" onclick="removeForm()">Remove</button>
+            <button class="custom-btn btn-13" style="margin-left: 30px" onclick="addForm()">+</button>
+            <button class="custom-btn btn-13" id="btnSubmit" style="margin-left: 30px" onclick="submitForm()">Submit</button>
         </div>
-        <button  class="custom-btn btn-13 " style=" margin-left: 39%" >Remove</button>
-        <button  class="custom-btn btn-13 " style=" margin-left: 30px;" >+</button>
-        <button  class="custom-btn btn-13 " style=" margin-left: 30px" >Submit</button>
 
+        <script>
+            (function () {
+                const formQuestion = document.querySelector('.new-form');
+                formQuestion.innerHTML += `<div
+                class="wrapper element form-question"
+                style="
+                    height: 600px;
+                    width: 1000px;
+                    background-color: white;
+                    border-radius: 7px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    margin-top: 100px;
+                    margin-bottom: 30px;
+                "
+            >
+                <div class="shadow-md">
+                    <div class="">
+                        <form>
+                            <div class="txt_field" style="font-size: 20px">
+                                Question:
+                                <input type="text" class="username" name="question" required />
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerA" class="username" required />
+                                <label>Answer A:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text"name="answerB" class="username" required />
+                                <label>Answer B:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerC" class="username" required />
+                                <label>Answer C:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerD" class="username" required />
+                                <label>Answer D:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="correctAnswer" class="username" required />
+                                <label>Correct Answer</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px; ">
+                                <input type="text" name="point" class="username" required />
+                                <label>Point</label>
+                            </div>
+                            <input type="file" name="file" />
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+            })();
+
+            function addForm() {
+                const formQuestion = document.querySelector('.new-form');
+                formQuestion.innerHTML += `<div
+                class="wrapper element form-question"
+                style="
+                    height: 600px;
+                    width: 1000px;
+                    background-color: white;
+                    border-radius: 7px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    margin-top: 100px;
+                    margin-bottom: 30px;
+                "
+            >
+                <div class="shadow-md">
+                    
+                    <div class="">
+                        <form>
+                            <div class="txt_field" style="font-size: 20px">
+                                Question:
+                                <input type="text" class="username" name="question" required />
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerA" class="username" required />
+                                <label>Answer A:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text"name="answerB" class="username" required />
+                                <label>Answer B:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerC" class="username" required />
+                                <label>Answer C:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerD" class="username" required />
+                                <label>Answer D:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="correctAnswer" class="username" required />
+                                <label>Correct Answer</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px; ">
+                                <input type="text" name="point" class="username" required />
+                                <label>Point</label>
+                            </div>
+                            <input type="file" name="file" />
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+            }
+
+            function removeForm() {
+                var listFormQuestion = document.querySelector('.new-form');
+                var childFormQuestion = document.querySelectorAll('.new-form .form-question');
+                listFormQuestion.removeChild(listFormQuestion.childNodes[childFormQuestion.length - 1]);
+            }
+
+            function submitForm() {
+                const idCourse = localStorage.getItem('id-course');
+                let questions = [];
+                document.querySelectorAll('form').forEach((f) => {
+                    let obj = {};
+                    f.querySelectorAll('input').forEach((element) => {
+                        var name = element.getAttribute('name');
+                        if (name == 'file') {
+                            obj[element.name] = element.files[0] || '';
+                        } else {
+                            obj[element.name] = element.value || '';
+                        }
+                    });
+                    questions.push(obj);
+                });
+                console.log(questions);
+                questions.forEach(async (question) => {
+                    const { url } = await axios
+                        .get('https://upload-image-123.azurewebsites.net/')
+                        .then((res) => res.data)
+                        .catch((error) => console.log(error));
+                    console.log(url);
+
+                    // post the image directly to the s3 bucket
+                    await axios(url, {
+                        method: 'put',
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        data: question.file,
+                    });
+
+                    const imageUrl = url.split('?')[0];
+
+                    const urlApi = 'https://quiz-project.azurewebsites.net/admin/addQuestion';
+                    await axios(urlApi, {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        data: {
+                            question: question.question,
+                            answerA: question.answerA,
+                            answerB: question.answerB,
+                            answerC: question.answerC,
+                            answerD: question.answerD,
+                            correct_Answer: question.correctAnswer,
+                            image: imageUrl,
+                            coursesQuiz: {
+                                id: idCourse,
+                                name: 'string',
+                            },
+                        },
+                    }).catch((error) => console.log(error.response));
+                });
+                localStorage.removeItem('id-course');
+                location.assign('/manageQuiz.html');
+            }
+        </script>
     </body>
 </html>
