@@ -219,7 +219,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="nameCourse" style="border-radius: 10px" placeholder="Name Course" required />
                             </div>
-                            <input type="file" name="file" />
+                            <input type="file" name="file" class="image" />
                         </div>
                         <div class="modal-body">
                             <button style="font-size: 20px; color: white" type="submit" class="btn btn-primary">Create Course</button>
@@ -233,13 +233,36 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const nameCourse = form.nameCourse.value;
+                const imageFile = document.querySelector('.image').files[0];
                 const urlApi = 'https://quiz-project.azurewebsites.net/admin/addCourse';
+
+                var imageUrl = '';
+                if (imageFile != null) {
+                    const { url } = await axios
+                        .get('https://upload-image-123.azurewebsites.net/')
+                        .then((res) => res.data)
+                        .catch((error) => console.log(error));
+                    console.log(url);
+
+                    // post the image directly to the s3 bucket
+                    await axios(url, {
+                        method: 'put',
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        data: imageFile,
+                    }).catch((error) => console.log(error));
+
+                    imageUrl = url.split('?')[0];
+                }
+
                 try {
                     const response = await axios({
                         method: 'post',
                         url: urlApi,
                         data: {
                             name: nameCourse,
+                            image: imageUrl,
                         },
                     });
                     localStorage.setItem('id-course', response.data.id);

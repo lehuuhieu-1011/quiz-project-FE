@@ -63,14 +63,15 @@
                 const response = await axios(api);
                 const data = response.data;
                 console.log(data);
-
-                var index = 0;
-                if (data.length == 0) {
-                    return;
-                }
                 const loader = document.getElementById('loader');
 
                 loader.style.display = 'none';
+
+                var index = 0;
+                if (data.length == 0) {
+                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Null</h1>`;
+                    return;
+                }
                 template_code.innerHTML = `
                 <div style="padding: 20px"></div>
                 <div class="wrapper2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ;height: 100px; width: 1000px; background-color: white; border-radius: 7px">

@@ -128,7 +128,7 @@ and open the template in the editor.
                 "
             >
                 <div class="shadow-md">
-                    
+
                     <div class="">
                         <form>
                             <div class="txt_field" style="font-size: 20px">
@@ -174,7 +174,7 @@ and open the template in the editor.
                 listFormQuestion.removeChild(listFormQuestion.childNodes[childFormQuestion.length - 1]);
             }
 
-            function submitForm() {
+            async function submitForm() {
                 const idCourse = localStorage.getItem('id-course');
                 let questions = [];
                 document.querySelectorAll('form').forEach((f) => {
@@ -190,45 +190,52 @@ and open the template in the editor.
                     questions.push(obj);
                 });
                 console.log(questions);
-                questions.forEach(async (question) => {
-                    const { url } = await axios
-                        .get('https://upload-image-123.azurewebsites.net/')
-                        .then((res) => res.data)
-                        .catch((error) => console.log(error));
-                    console.log(url);
 
-                    // post the image directly to the s3 bucket
-                    await axios(url, {
-                        method: 'put',
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                        data: question.file,
-                    });
+                await Promise.all(
+                    questions.map((question) =>
+                        (async function (question) {
+                            const { url } = await axios
+                                .get('https://upload-image-123.azurewebsites.net/')
+                                .then((res) => res.data)
+                                .catch((error) => console.log(error));
+                            console.log(url);
 
-                    const imageUrl = url.split('?')[0];
+                            // post the image directly to the s3 bucket
+                            await axios(url, {
+                                method: 'put',
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                                data: question.file,
+                            });
 
-                    const urlApi = 'https://quiz-project.azurewebsites.net/admin/addQuestion';
-                    await axios(urlApi, {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        data: {
-                            question: question.question,
-                            answerA: question.answerA,
-                            answerB: question.answerB,
-                            answerC: question.answerC,
-                            answerD: question.answerD,
-                            correct_Answer: question.correctAnswer,
-                            image: imageUrl,
-                            coursesQuiz: {
-                                id: idCourse,
-                                name: 'string',
-                            },
-                        },
-                    }).catch((error) => console.log(error.response));
-                });
+                            const imageUrl = url.split('?')[0];
+                            console.log('0');
+
+                            const urlApi = 'https://quiz-project.azurewebsites.net/admin/addQuestion';
+                            await axios(urlApi, {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                data: {
+                                    question: question.question,
+                                    answerA: question.answerA,
+                                    answerB: question.answerB,
+                                    answerC: question.answerC,
+                                    answerD: question.answerD,
+                                    correct_Answer: question.correctAnswer,
+                                    image: imageUrl,
+                                    coursesQuiz: {
+                                        id: idCourse,
+                                        name: 'string',
+                                    },
+                                },
+                            }).catch((error) => console.log(error.response));
+                        })(question)
+                    )
+                );
+                console.log('1');
                 localStorage.removeItem('id-course');
                 location.assign('/manageQuiz.html');
             }
