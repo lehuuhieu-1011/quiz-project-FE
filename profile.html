@@ -50,11 +50,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="" />
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" name="file" />
-                        </div>
+                        <img alt="" class="image-profile" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -75,15 +71,15 @@
                                     <div class="col-md-4">
                                         <label style="font-weight: bold; font-size: 19px">UserName: </label>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <p class="username"></p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label style="font-weight: bold; font-size: 19px">Name:</label>
+                                        <label style="font-weight: bold; font-size: 19px">FullName:</label>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <p class="name"></p>
                                     </div>
                                 </div>
@@ -119,6 +115,7 @@
                             style="background: linear-gradient(45deg, #59ab6e 0%, rgba(66, 245, 189, 0.4) 100%)"
                             data-toggle="modal"
                             data-target="#myModal"
+                            onclick="editProfile()"
                         >
                             Edit profile
                         </button>
@@ -147,21 +144,14 @@
                                 <!-- Modal body -->
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>Name</label>
-                                        <input type="text" class="form-control" required />
+                                        <label>FullName</label>
+                                        <input type="text" class="form-control fullname" required />
                                     </div>
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea class="form-control" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Phone</label>
-                                        <input type="text" class="form-control" required />
-                                    </div>
+                                    <label>Image</label>
+                                    <br />
+                                    <div class="store-image"></div>
+                                    <br />
+                                    <input type="file" id="file" />
                                 </div>
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
@@ -171,7 +161,6 @@
                                         style="background: linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%)"
                                         class="btn btn-info"
                                         value="Save"
-                                        onclick="changePassword()"
                                     />
                                 </div>
                             </form>
@@ -243,6 +232,7 @@
         (function () {
             const username = document.querySelector('.username');
             const name = document.querySelector('.name');
+            const imageProfile = document.querySelector('.image-profile');
 
             const user = localStorage.getItem('username');
 
@@ -253,6 +243,9 @@
                 .then((data) => {
                     username.innerHTML = data.username;
                     name.innerHTML = data.fullname;
+                    if (data.image != null) {
+                        imageProfile.setAttribute('src', data.image);
+                    }
                 })
                 .catch((error) => console.log(error));
         })();
@@ -278,6 +271,8 @@
 
             const username = localStorage.getItem('username');
 
+            const modal = $('#myModalpass');
+
             const apiGet = `https://quiz-project.azurewebsites.net/findByUserName/${username}`;
             fetch(apiGet)
                 .then((res) => res.json())
@@ -286,10 +281,129 @@
                     const id = data.id;
                     const fullname = data.fullname;
                     const image = data.image;
-                    const password = data.password;
+                    var password = data.password;
                     const role = data.role;
                     const username = data.username;
-                });
+
+                    if (data.password != oldpasword) {
+                        errorPassword.innerHTML = 'Wrong password';
+                        return;
+                    }
+                    password = newpassword;
+                    const apiPut = `https://quiz-project.azurewebsites.net/updateUser/${username}`;
+                    fetch(apiPut, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id,
+                            fullname,
+                            image,
+                            password,
+                            role,
+                            username,
+                        }),
+                    })
+                        .then(() => {
+                            modal.hide();
+                            location.assign('./profile.html');
+                        })
+                        .catch((error) => console.log(error));
+                })
+                .catch((error) => console.log(error));
         });
+    </script>
+
+    <script>
+        const formEdit = document.querySelector('#edit-profile');
+        formEdit.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const newFullname = document.querySelector('.fullname').value;
+            const imageFile = document.querySelector('#file').files[0];
+            var imageUrl = '';
+
+            if (imageFile != null) {
+                const { url } = await axios
+                    .get('https://upload-image-123.azurewebsites.net/')
+                    .then((res) => res.data)
+                    .catch((error) => console.log(error));
+                console.log(url);
+
+                // post the image directly to the s3 bucket
+                await axios(url, {
+                    method: 'put',
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    data: imageFile,
+                });
+
+                imageUrl = url.split('?')[0];
+            }
+
+            const username = localStorage.getItem('username');
+
+            const modal = $('#myModal');
+
+            const apiGet = `https://quiz-project.azurewebsites.net/findByUserName/${username}`;
+            fetch(apiGet)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    const id = data.id;
+                    const fullname = newFullname;
+                    var image = data.image;
+                    if (imageUrl != null) {
+                        image = imageUrl;
+                    }
+                    var password = data.password;
+                    const role = data.role;
+                    const username = data.username;
+                    const apiPut = `https://quiz-project.azurewebsites.net/updateUser/${username}`;
+                    fetch(apiPut, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id,
+                            fullname,
+                            image,
+                            password,
+                            role,
+                            username,
+                        }),
+                    })
+                        .then(() => {
+                            modal.hide();
+                            location.assign('./profile.html');
+                        })
+                        .catch((error) => console.log(error));
+                })
+                .catch((error) => console.log(error));
+        });
+    </script>
+
+    <script>
+        function editProfile() {
+            const fullname = document.querySelector('.fullname');
+            const image = document.querySelector('.store-image');
+            const username = localStorage.getItem('username');
+
+            const apiGet = `https://quiz-project.azurewebsites.net/findByUserName/${username}`;
+            fetch(apiGet)
+                .then((res) => res.json())
+                .then((data) => {
+                    fullname.value = data.fullname;
+                    if (data.image != null) {
+                        image.innerHTML = `
+                        <img src=${data.image} width="100" >
+                        `;
+                    }
+                })
+                .catch((error) => console.log(error));
+        }
     </script>
 </body>
