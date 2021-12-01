@@ -149,7 +149,8 @@
                                     </div>
                                     <label>Image</label>
                                     <br />
-                                    <div class="store-image"></div>
+                                    <img class="store-image" width="100"></img>
+                                    <br>
                                     <br />
                                     <input type="file" id="file" />
                                 </div>
@@ -227,6 +228,7 @@
                 `;
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
         (function () {
@@ -355,7 +357,7 @@
                     const id = data.id;
                     const fullname = newFullname;
                     var image = data.image;
-                    if (imageUrl != null) {
+                    if (imageUrl != '') {
                         image = imageUrl;
                     }
                     var password = data.password;
@@ -398,12 +400,18 @@
                 .then((data) => {
                     fullname.value = data.fullname;
                     if (data.image != null) {
-                        image.innerHTML = `
-                        <img src=${data.image} width="100" >
-                        `;
+                        image.src = data.image;
                     }
                 })
                 .catch((error) => console.log(error));
         }
+    </script>
+    <script>
+        (function () {
+            const username = localStorage.getItem('username');
+            if (username == null) {
+                location.assign('./quiz.html');
+            }
+        })();
     </script>
 </body>

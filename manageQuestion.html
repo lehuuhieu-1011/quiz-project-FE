@@ -36,7 +36,11 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#myModal" style="font-size: 20px; color: #59ab6e; cursor: pointer;margin-top:  5px"
+                            <a
+                                class="nav-link"
+                                data-toggle="modal"
+                                data-target="#myModal"
+                                style="font-size: 20px; color: #59ab6e; cursor: pointer; margin-top: 5px"
                                 >Create Quiz</a
                             >
                         </li>
@@ -319,7 +323,7 @@
                                         <input type="text" class="username" name="point" />
                                         <label>Point</label>
                                     </div>
-                                    <img class="modal-img"  style="border:none;  height: 70px; width: 70px" />
+                                    <img class="modal-img" style="border: none; height: 70px; width: 70px" />
                                     <input type="file" name="file" class="image" />
                                     <br />
                                     <button class="custom-btn btn-13" style="margin-top: 10px" type="submit">Submit</button>
@@ -380,7 +384,7 @@
                 </div>
             </div>
         </div>
-        
+
         <script>
             const urlImage = document.querySelector('.image');
             urlImage.onchange = (e) => {
@@ -513,6 +517,18 @@
 
                 location.assign('./manageQuestion.html');
             });
+        </script>
+        <script>
+            (function () {
+                const username = localStorage.getItem('username');
+                const role = localStorage.getItem('role');
+                if (username == null) {
+                    location.assign('./quiz.html');
+                }
+                if (role != 'Admin') {
+                    location.assign('./quiz.html');
+                }
+            })();
         </script>
     </body>
 </html>

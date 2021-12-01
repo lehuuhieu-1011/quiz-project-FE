@@ -253,5 +253,13 @@
                 window.location.replace('./quiz.html');
             }
         </script>
+        <script>
+            (function () {
+                const username = localStorage.getItem('username');
+                if (username == null) {
+                    location.assign('./quiz.html');
+                }
+            })();
+        </script>
     </body>
 </html>
