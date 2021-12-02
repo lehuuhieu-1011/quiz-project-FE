@@ -110,7 +110,7 @@
                                     </svg>
                                 </a>
                                     ${
-                                        x.image == ''
+                                        x.image == '' || x.image == null
                                             ? `<div class="h4 font-weight-bold" style="font-size: 20px">${index}. ${x.question}</div>`
                                             : `<div class="box">
                                             <img src="${x.image}" width="100px" style="padding-right: 10px" class="image-url"/>
@@ -405,10 +405,14 @@
                 const point = modalForm.point.value;
                 // const urlImage = document.querySelector('.modal-img').src;
                 const imageFile = document.querySelector('.image').files[0];
-                var oldImageUrl = document.querySelector('.image-url').src;
+                var oldImageUrl = null;
+                try {
+                    oldImageUrl = document.querySelector('.image-url').src;
+                } catch (error) {
+                    console.log(error);
+                }
                 const idQuestion = localStorage.getItem('id-question');
                 const idCourse = localStorage.getItem('id');
-
                 var imageUrl = '';
                 if (imageFile != null) {
                     const { url } = await axios
