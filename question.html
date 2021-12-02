@@ -63,7 +63,7 @@
         <script>
             (async function () {
                 const template_code = document.querySelector('.template-code');
-                const id = localStorage.getItem('id');
+                const id = localStorage.getItem('idCourse');
                 // localStorage.removeItem('id');
 
                 const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
@@ -104,7 +104,7 @@
                                 <div class="text-center"></div>
                                 <div class="h4 font-weight-bold" style="font-size: 20px">
                                     ${
-                                        x.image == ''
+                                        x.image == '' || x.image == null
                                             ? `<div class="h4 font-weight-bold" style="font-size: 20px">${index}. ${x.question}</div>`
                                             : `<div class="box">
                                             <img src="${x.image}" alt="${x.image}" width="100px" style="padding-right: 10px"/>
@@ -208,7 +208,7 @@
                 }
 
                 var scores = 0;
-                const id = localStorage.getItem('id');
+                const id = localStorage.getItem('idCourse');
 
                 const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
                 const response = await axios(api);
@@ -225,7 +225,26 @@
                 const modalBody = document.querySelector('.modal-body');
                 const closeModal = document.querySelector('.closeModal');
                 const okModal = document.querySelector('.okModal');
-                (function () {
+                (async function () {
+                    const apiGetUser = `https://quiz-project.azurewebsites.net/findByUserName/${localStorage.getItem('username')}`;
+                    const user = await axios(apiGetUser).catch((error) => console.log(error));
+
+                    const apiGetCourse = `https://quiz-project.azurewebsites.net/admin/getCourseById/${id}`;
+                    const course = await axios(apiGetCourse).catch((error) => console.log(error));
+
+                    const apiStoreScore = 'https://quiz-project.azurewebsites.net/saveScore';
+
+                    await axios
+                        .post(apiStoreScore, {
+                            score: scores,
+                            user: user.data,
+                            coursesQuiz: course.data,
+                        })
+                        .catch((error) => console.log(error.response));
+
+                    const body = document.querySelector('body');
+                    body.className = 'modal-open';
+
                     modal.show();
                     modalBody.innerHTML = `<p>You have ${scores} scores</p>`;
                 })();

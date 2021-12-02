@@ -62,10 +62,10 @@
                                 <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#profile">History</a>
+                                <a class="nav-link" data-toggle="tab" href="#profile" onclick="historyFunc()">History</a>
                             </li>
                         </ul>
-                        <div class="tab-content col-md-9">
+                        <div class="tab-content col-md-12">
                             <div role="tabpanel" class="tab-pane active" style="padding-top: 20px" id="home">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -94,13 +94,13 @@
                                             <th>Time</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody class="score">
+                                        <!-- <tr>
                                             <td>1</td>
                                             <td>Anna</td>
                                             <td>85</td>
                                             <td>11-12-2021</td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -404,6 +404,32 @@
                     }
                 })
                 .catch((error) => console.log(error));
+        }
+
+        function historyFunc(){
+            const idUser = localStorage.getItem('idUser')
+            const tableScore = document.querySelector('.score')
+            const api = `https://quiz-project.azurewebsites.net/score/${idUser}`
+            var temp = 0;
+            fetch(api)
+                .then(res => res.json())
+                .then(data => {
+                    tableScore.innerHTML = ''
+                    data.map(score => {
+                        temp++
+                        tableScore.innerHTML += 
+                        `
+                        <tr>
+                            <td>${temp}</td>
+                            <td>${score.coursesQuiz.name}</td>
+                            <td>${score.score}</td>
+                            <td>${score.timeSubmit}</td>
+                        </tr>
+                        `
+                    })
+                    console.log(data);
+                })
+                .catch(error => console.log(error))
         }
     </script>
     <script>
