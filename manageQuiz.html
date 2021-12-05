@@ -29,9 +29,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="./profile.html" style="font-size: 20px; color: #59ab6e">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./profile.html" style="font-size: 20px; color: #59ab6e;margin-top: 13px">Profile</a></li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#myModal" style="font-size: 20px; color: #59ab6e; cursor: pointer"
+                            <a class="nav-link" data-toggle="modal" data-target="#myModal" style="font-size: 20px; color: #59ab6e; cursor: pointer;margin-top: 13px"
                                 >Create Coures</a
                             >
                         </li>
@@ -171,14 +171,13 @@
             const infoUser = document.querySelector('.infoUser');
             if (localStorage.getItem('username') == null) {
                 infoUser.innerHTML = `
-                    <li class="nav-item"><a class="nav-link"  style="font-size: 20px; color: #59ab6e" href="./register.html">Register &nbsp</a></li>
-        
-                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal"  style="font-size: 20px; color: #59ab6e"  href="./login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link"  style="font-size: 20px; color: #59ab6e" href="./register.html">Register &nbsp</a></li>       
+                    
                 `;
             } else {
                 infoUser.innerHTML = `
                 
-                <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./login.html" onclick="logout()">Logout &nbsp</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./quiz.html" onclick="logout()">Logout &nbsp</a></li>
                 <li class="nav-item"><a style="color:#59ab6e;font-weight: bold;font-size: 18px">Username&nbsp:&nbsp${localStorage.getItem('username')}</a></li>
                 
                 `;

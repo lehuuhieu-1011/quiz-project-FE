@@ -186,7 +186,7 @@
                 // `;
             } else {
                 infoUser.innerHTML = `
-               <a class="nav-link"  style="color:#59ab6e" href="./login.html" onclick="logout()">Logout &nbsp</a>
+               <a class="nav-link"  style="color:#59ab6e" href="./quiz.html" onclick="logout()">Logout &nbsp</a>
                 <div>Username&nbsp:&nbsp${localStorage.getItem('username')}</div>
         `;
             }
@@ -219,12 +219,16 @@
                         scores += element.point;
                     }
                 });
-                console.log(scores);
 
-                const modal = $('.modal');
-                const modalBody = document.querySelector('.modal-body');
-                const closeModal = document.querySelector('.closeModal');
-                const okModal = document.querySelector('.okModal');
+                console.log(scores);
+                window.clearInterval(update);
+                localStorage.setItem('scores', scores);
+                const timeSubmit = document.querySelector('#time001').innerHTML.split(' : ');
+                let secondsSubmit = parseInt(timeSubmit[0]) * 60 + parseInt(timeSubmit[1]);
+                console.log(secondsSubmit);
+                localStorage.setItem('secondsSubmit', secondsSubmit);
+                localStorage.setItem('storeAnswer', JSON.stringify([...storeAnswer]));
+
                 (async function () {
                     const apiGetUser = `https://quiz-project.azurewebsites.net/findByUserName/${localStorage.getItem('username')}`;
                     const user = await axios(apiGetUser).catch((error) => console.log(error));
@@ -241,13 +245,13 @@
                             coursesQuiz: course.data,
                         })
                         .catch((error) => console.log(error.response));
-
-                    const body = document.querySelector('body');
-                    body.className = 'modal-open';
-
-                    modal.show();
-                    modalBody.innerHTML = `<p>You have ${scores} scores</p>`;
+                    location.assign('./submit.html');
                 })();
+
+                // const modal = $('.modal');
+                // const modalBody = document.querySelector('.modal-body');
+                // const closeModal = document.querySelector('.closeModal');
+                // const okModal = document.querySelector('.okModal');
 
                 // closeModal.click(function () {
                 //     modal.hide();

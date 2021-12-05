@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./css/styleQuestion.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Icons-->
+
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./css/styleProfile.css" rel="stylesheet" />
+        <link href="./css/stylesProfile.css" rel="stylesheet" />
+        <title>Question Page</title>
+    </head>
+    <body style="background: white">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <div class="container">
+                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="loader"></div>
+
+        <div class="template-code"></div>
+
+        <div class="modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Your Scores</h5>
+                        <button onclick="closeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button onclick="okModal()" type="button" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="small text-center text-muted">Nhóm 7 - Quiz Game Assginment</div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            (async function () {
+                const template_code = document.querySelector('.template-code');
+                const id = localStorage.getItem('idCourse');
+                // localStorage.removeItem('id');
+
+                const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
+                // const api = `http://localhost:8080/admin/course/${id}`;
+                const response = await axios(api);
+                const data = response.data;
+                console.log(data);
+
+                const loader = document.getElementById('loader');
+
+                loader.style.display = 'none';
+                var index = 0;
+                if (data.length == 0) {
+                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Null</h1>`;
+                    return;
+                }
+                const timeDone = 90 - localStorage.getItem('secondsSubmit');
+                const minutesDone = Math.floor(timeDone / 60);
+                const secondsDone = timeDone - minutesDone * 60;
+
+                template_code.innerHTML = `
+
+                    <div style="padding: 50px"></div>
+             <h1 style="text-align: center;color: #59ab6e">Scores</h1>
+             <h1 style="text-align: center;color: #59ab6e">${localStorage.getItem('scores')}</h1>
+            <br/>
+             <br/>
+             <br/>
+            <h1 style="text-align: center;color: #59ab6e">Time Done</h1>
+            <h1 style="text-align: center;color: #59ab6e">${minutesDone} : ${secondsDone}</h1>
+
+            <div style="padding: 70px"></div>
+
+                    <div class="wrapper2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ;height: 100px; width: 1000px; background-color: white; border-radius: 7px">
+                        <div class="shadow-md">
+                            <div class="h4 font-weight-bold title" style="font-size: 25px; text-align: center"></div>
+                        </div>
+                    </div>
+                    <div class="body"></div>
+
+                    <button onclick="submit()" class="custom-btn btn-6" style="border-radius: 10px; margin-left: 1200px; height: 50px; width: 200px; background: linear-gradient(45deg,   #59ab6e 0%,rgba(66, 245, 189,0.4) 100%);">
+                        <span> Submit</span>
+                    </button>
+                    <div style="padding: 50px"></div>
+                    `;
+                const title = document.querySelector('.title');
+                const body = document.querySelector('.body');
+
+                const answer = new Map(JSON.parse(localStorage.getItem('storeAnswer')));
+
+                console.log(answer);
+
+                title.innerHTML = data[0].coursesQuiz.name;
+                data.map((x) => {
+                    index++;
+                    body.innerHTML += `
+                            <div class="wrapper3" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ; width: 1000px; background-color: white; border-radius: 7px">
+                                <div class="shadow-md">
+                                    <div class="text-center"></div>
+                                    <div class="h4 font-weight-bold" style="font-size: 20px">
+                                        ${
+                                            x.image == '' || x.image == null
+                                                ? `<div class="h4 font-weight-bold" style="font-size: 20px">${index}. ${x.question}</div>`
+                                                : `<div class="box">
+                                                <img src="${x.image}" alt="${x.image}" width="100px" style="padding-right: 10px"/>
+                                                <span>${index}. ${x.question}</span>
+                                            </div>`
+                                        }
+                                    </div>
+                                    <hr />
+                                    <div class="">
+                                        <form>
+                                            ${
+                                                x.answerA == ''
+                                                    ? ''
+                                                    : `<label class="options" style="font-size: 15px"
+                                                >${x.answerA} <input type="radio" name="radio" id="${x.id}" value="${x.answerA}" ${
+                                                          x.answerA == answer.get(`${x.id}`) ? `checked` : ''
+                                                      } /> <span class="checkmark"></span>
+                                            </label>
+                                            <br/>`
+                                            }
+                                            ${
+                                                x.answerB == ''
+                                                    ? ''
+                                                    : `<label class="options" style="font-size: 15px"
+                                                >${x.answerB} <input type="radio" name="radio" id="${x.id}" value="${x.answerB}" ${
+                                                          x.answerB == answer.get(`${x.id}`) ? `checked` : ''
+                                                      }/> <span class="checkmark"></span>
+                                            </label>
+                                            <br/>`
+                                            }
+                                            ${
+                                                x.answerC == ''
+                                                    ? ''
+                                                    : `<label class="options" style="font-size: 15px"
+                                                >${x.answerC} <input type="radio" name="radio" id="${x.id}" value="${x.answerC}" ${
+                                                          x.answerC == answer.get(`${x.id}`) ? `checked` : ''
+                                                      }/> <span class="checkmark"></span>
+                                            </label>
+                                            <br/>`
+                                            }
+                                            ${
+                                                x.answerD == ''
+                                                    ? ''
+                                                    : `<label class="options" style="font-size: 15px"
+                                                >${x.answerD} <input type="radio" name="radio" id="${x.id}" value="${x.answerD}" ${
+                                                          x.answerD == answer.get(`${x.id}`) ? `checked` : ''
+                                                      }/> <span class="checkmark"></span>
+                                            </label>
+                                            <br/>`
+                                            }
+                                        </form>
+                                        <div class="shadow-md">
+                                            <div class="text-center"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wrapper3" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ; width: 1000px;; background-color: white; border-radius: 7px">
+                                <div class="shadow-md">
+                                    <div class="text-center"></div>
+                                    <div class="h4 font-weight-bold" style="font-size: 20px">
+                                     <h3>Correct Anwser: ${x.correct_Answer}</h3>
+                                    </div>
+                        `;
+                });
+
+                var minutes = 1;
+                var seconds = 30;
+            })();
+        </script>
+
+        <script>
+            const infoUser = document.querySelector('.infoUser');
+            if (localStorage.getItem('username') == null) {
+                //         infoUser.innerHTML = `
+                //     <li class="nav-item"><a class="nav-link"  style="color: white" href="./register.html">Register</a></li>
+                //             <li class="nav-item"><a class="nav-link"  style="color: white"   href="./login.html">Login</a></li>
+                // `;
+            } else {
+                infoUser.innerHTML = `
+               <a class="nav-link"  style="color:#59ab6e" href="./quiz.html" onclick="logout()">Logout &nbsp</a>
+                <div>Username&nbsp:&nbsp${localStorage.getItem('username')}</div>
+        `;
+            }
+        </script>
+
+        <script type="application/javascript">
+            function logout() {
+                localStorage.clear();
+            }
+
+            async function submit() {
+                localStorage.removeItem('storeAnswer');
+                localStorage.removeItem('secondsSubmit');
+                localStorage.removeItem('scores');
+                localStorage.removeItem('idCourse');
+                location.assign('./quiz.html');
+            }
+
+            function closeModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
+            }
+
+            function okModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
+            }
+        </script>
+        <script>
+            (function () {
+                const username = localStorage.getItem('username');
+                if (username == null) {
+                    location.assign('./quiz.html');
+                }
+            })();
+        </script>
+    </body>
+</html>

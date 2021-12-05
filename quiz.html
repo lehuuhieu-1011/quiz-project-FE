@@ -30,6 +30,7 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="infoUser" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+
                     </ul>
                     <!-- Button trigger modal -->
                 </div>
@@ -50,11 +51,11 @@
                             href="./login.html"
                             class="btn btn-primary"
                             style="
-                                border: none;
-                                width: 500px;
-                                height: 100px;
-                                margin-left: 50px;
-                                background: linear-gradient(45deg, #59ab6e 0%, rgba(66, 245, 189, 0.4) 100%);
+                            border: none;
+                            width: 500px;
+                            height: 100px;
+                            margin-left: 50px;
+                            background: linear-gradient(45deg, #59ab6e 0%, rgba(66, 245, 189, 0.4) 100%);
                             "
                             role="button"
                             aria-disabled="true"
@@ -69,11 +70,11 @@
                             href="./loginadmin.html"
                             class="btn btn-primary"
                             style="
-                                border: none;
-                                width: 500px;
-                                height: 100px;
-                                margin-left: 50px;
-                                background: linear-gradient(45deg, #59ab6e 0%, rgba(66, 245, 189, 0.4) 100%);
+                            border: none;
+                            width: 500px;
+                            height: 100px;
+                            margin-left: 50px;
+                            background: linear-gradient(45deg, #59ab6e 0%, rgba(66, 245, 189, 0.4) 100%);
                             "
                             role="button"
                             aria-disabled="true"
@@ -86,10 +87,10 @@
         </div>
         <div id="loader"></div>
         <div class="container">
-            <div class="s004" style="padding-top: 100px">
+            <div class="s004" style="padding-top: 300px">
                 <form>
                     <fieldset>
-                        <legend>ALL QUIZ</legend>
+
                         <div class="inner-form" style="border-radius: 50px">
                             <div class="input-field">
                                 <input
@@ -98,11 +99,11 @@
                                     style="font-size: 30px"
                                     type="text"
                                     placeholder="Type to search..."
-                                />
+                                    />
                                 <button class="btn-search" type="button" onclick="searchByName()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                        <path
-                                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                    <path
+                                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
                                         ></path>
                                     </svg>
                                 </button>
@@ -123,23 +124,23 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         <script>
-            (async function initValue() {
-                const loader = document.getElementById('loader');
+                                    (async function initValue() {
+                                        const loader = document.getElementById('loader');
 
-                const card_desk = document.querySelector('.dom-card');
-                const api = 'https://quiz-project.azurewebsites.net/admin/course';
-                // const api = 'http://localhost:8080/admin/course';
-                try {
-                    const response = await axios(api);
-                    console.log(response.data);
-                    const data = response.data;
-                    loader.style.display = 'none';
-                    if (data.length == 0) {
-                        card_desk.innerHTML = '<div style="text-align: center">Null</div>';
-                        return;
-                    }
-                    data.map((x) => {
-                        card_desk.innerHTML += `
+                                        const card_desk = document.querySelector('.dom-card');
+                                        const api = 'https://quiz-project.azurewebsites.net/admin/course';
+                                        // const api = 'http://localhost:8080/admin/course';
+                                        try {
+                                            const response = await axios(api);
+                                            console.log(response.data);
+                                            const data = response.data;
+                                            loader.style.display = 'none';
+                                            if (data.length == 0) {
+                                                card_desk.innerHTML = '<div style="text-align: center">Null</div>';
+                                                return;
+                                            }
+                                            data.map((x) => {
+                                                card_desk.innerHTML += `
                         <div class="col-xl mb-4" style="margin-top:20px; padding-bottom:20px">
                             <div class="card h-100"  style="cursor: pointer;border-top-left-radius:20px;border-top-right-radius:20px;width:300px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; " onclick="goToQuestion(${x.id})">
                                 <img src="${x.image}" class="card-img-top"style="height:300px;width:300px;cursor: pointer;border-radius:20px" alt="${x.image}" />
@@ -157,11 +158,11 @@
                         </div>
                 
                     `;
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-            })();
+                                            });
+                                        } catch (error) {
+                                            console.log(error);
+                                        }
+                                    })();
         </script>
 
         <script>
@@ -169,8 +170,14 @@
             if (localStorage.getItem('username') == null) {
                 infoUser.innerHTML = `
                     <li class="nav-item"><a class="nav-link"  style="font-size: 20px; color: #59ab6e" href="./register.html">Register &nbsp</a></li>
+        <li class="drop"><a href="#"  style="color: #59ab6e;font-weight: bold">Login</a>
+      <ul class="dropdown" style="border-radius:10px">
+        <li><a href="./login.html" style="color: #59ab6e">Login User</a></li>
+        <li><a href="./loginadmin.html" style="color: #59ab6e">Login Admin</a></li>
         
-                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal"  style="font-size: 20px; color: #59ab6e"  href="./login.html">Login</a></li>
+      </ul>
+    </li>
+
                 `;
             } else {
                 if (localStorage.getItem('role') == 'Admin') {
@@ -179,7 +186,7 @@
                         <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./login.html" onclick="logout()">Logout &nbsp</a></li>
                         <li class="nav-item"><a style="color:#59ab6e;font-weight: bold;font-size: 20px" >Username&nbsp:&nbsp${localStorage.getItem(
                             'username'
-                        )}</a></li>
+                            )}</a></li>
                         `;
                 } else {
                     infoUser.innerHTML = `
@@ -195,55 +202,55 @@
 
         <script type="application/javascript">
             function goToQuestion(id) {
-                localStorage.setItem('idCourse', id);
-                console.log(id);
-                document.location.assign('./question.html');
+            localStorage.setItem('idCourse', id);
+            console.log(id);
+            document.location.assign('./question.html');
             }
             function logout() {
-                localStorage.clear();
+            localStorage.clear();
             }
 
             async function searchByName() {
-                const loader = document.getElementById('loader');
-                loader.style.display = 'block';
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
 
-                const txtSearch = document.querySelector('.txtSearch').value;
+            const txtSearch = document.querySelector('.txtSearch').value;
 
-                const card_desk = document.querySelector('.dom-card');
-                card_desk.innerHTML = '';
-                try {
-                    const apiUrl = `https://quiz-project.azurewebsites.net/admin/courses?name=${txtSearch}`;
-                    const response = await axios.get(apiUrl);
-                    const data = response.data;
-                    console.log(data);
-                    loader.style.display = 'none';
-                    if (data.length == 0) {
-                        card_desk.innerHTML = '<div style="text-align: center">Null</div>';
-                        return;
-                    }
-                    data.map((x) => {
-                        card_desk.innerHTML += `
-                       <div class="col-xl mb-4" style="margin-top:20px; padding-bottom:20px">
-                            <div class="card h-100"  style="cursor: pointer;border-top-left-radius:20px;border-top-right-radius:20px;width:300px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; " onclick="goToQuestion(${x.id})">
-                                <img src="${x.image}" class="card-img-top"style="cursor: pointer;border-radius:20px" alt="${x.image}" />
-                                <div class="card-body">
-                                    <p class="card-text">QUIZ</p>
-                                    <h5 class="card-title">${x.name}</h5>
-                                    <p class="card-text">
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
-                
-                        </div>
-                
-                    `;
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
+            const card_desk = document.querySelector('.dom-card');
+            card_desk.innerHTML = '';
+            try {
+            const apiUrl = `https://quiz-project.azurewebsites.net/admin/courses?name=${txtSearch}`;
+            const response = await axios.get(apiUrl);
+            const data = response.data;
+            console.log(data);
+            loader.style.display = 'none';
+            if (data.length == 0) {
+            card_desk.innerHTML = '<div style="text-align: center">Null</div>';
+            return;
+            }
+            data.map((x) => {
+            card_desk.innerHTML += `
+            <div class="col-xl mb-4" style="margin-top:20px; padding-bottom:20px">
+            <div class="card h-100"  style="cursor: pointer;border-top-left-radius:20px;border-top-right-radius:20px;width:300px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; " onclick="goToQuestion(${x.id})">
+            <img src="${x.image}" class="card-img-top"style="cursor: pointer;border-radius:20px" alt="${x.image}" />
+            <div class="card-body">
+            <p class="card-text">QUIZ</p>
+            <h5 class="card-title">${x.name}</h5>
+            <p class="card-text">
+            </p>
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+            </div>
+
+            </div>
+
+            `;
+            });
+            } catch (error) {
+            console.log(error);
+            }
             }
         </script>
         <!-- <div class="col mb-4">
@@ -280,5 +287,15 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(".drop")
+  .mouseover(function() {
+  $(".dropdown").show(300);
+});
+$(".drop")
+  .mouseleave(function() {
+  $(".dropdown").hide(300);     
+});
+        </script>
     </body>
 </html>
