@@ -811,7 +811,7 @@ legend {
 }
 
 .s004 {
-  min-height: 100px;
+  
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
@@ -843,7 +843,7 @@ legend {
 .s004 form .inner-form {
   width: 100%;
   margin-bottom: 17px;
-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
   text-align: center
  
 }

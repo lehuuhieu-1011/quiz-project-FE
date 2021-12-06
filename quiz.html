@@ -22,12 +22,36 @@
     </head>
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family: Wire One; margin-left: 150px">Quiz Game</a>
             <div class="container">
-                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <div class="s004" style="height: 100px">
+                        <form>
+                            <fieldset>
+                                <div class="inner-form" style="margin-top: -30px; width: 900px; height: 20px">
+                                    <div class="input-field" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; border-radius: 50px">
+                                        <input
+                                            class="form-control txtSearch"
+                                            id="choices-text-preset-values"
+                                            style="font-size: 30px"
+                                            type="text"
+                                            placeholder="Type to search..."
+                                        />
+                                        <button class="btn-search" type="button" onclick="searchByName()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                                ></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="infoUser" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
                     </ul>
@@ -86,32 +110,7 @@
         </div>
         <div id="loader"></div>
         <div class="container">
-            <div class="s004" style="padding-top: 300px">
-                <form>
-                    <fieldset>
-                        <div class="inner-form" style="border-radius: 50px">
-                            <div class="input-field">
-                                <input
-                                    class="form-control txtSearch"
-                                    id="choices-text-preset-values"
-                                    style="font-size: 30px"
-                                    type="text"
-                                    placeholder="Type to search..."
-                                />
-                                <button class="btn-search" type="button" onclick="searchByName()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                        <path
-                                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                                        ></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-
-            <div style="padding-top: 45px">
+            <div style="margin-top: 200px">
                 <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
             </div>
         </div>
@@ -123,6 +122,7 @@
 
         <script>
             (async function initValue() {
+                localStorage.removeItem('idDeleteCourse');
                 const loader = document.getElementById('loader');
 
                 const card_desk = document.querySelector('.dom-card');
@@ -179,19 +179,33 @@
                 `;
             } else {
                 if (localStorage.getItem('role') == 'Admin') {
-                    infoUser.innerHTML = `<li class="nav-item"><a class="nav-link" href="./manageQuiz.html" style="font-size: 20px; color: #59ab6e">ManageQuiz</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./profile.html" style="font-size: 20px; color: #59ab6e">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./login.html" onclick="logout()">Logout &nbsp</a></li>
-                        <li class="nav-item"><a style="color:#59ab6e;font-weight: bold;font-size: 20px" >Username&nbsp:&nbsp${localStorage.getItem(
-                            'username'
-                        )}</a></li>
+                    infoUser.innerHTML = `<li class="nav-item"><a class="nav-link" href="./manageQuiz.html" style="font-size: 20px; color: #59ab6e">ManageQuiz&nbsp&nbsp&nbsp&nbsp&nbsp</a></li>
+                   <li >
+        <li class="drop"><img  src="https://anhdep123.com/wp-content/uploads/2020/10/hinh-nen-mau-xanh-luc.jpg" style="width:50px;height:50px;border-radius:100px" />
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
                         `;
                 } else {
                     infoUser.innerHTML = `
                 
-                <li class="nav-item"><a class="nav-link" href="./profile.html" style="font-size: 20px; color: #59ab6e">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./login.html" onclick="logout()">Logout &nbsp</a></li>
-                <li class="nav-item"><a style="color:#59ab6e;font-weight: bold;font-size: 20px" >Username&nbsp:&nbsp${localStorage.getItem('username')}</a></li>
+               <li >
+        <li class="drop"><img  src="https://anhdep123.com/wp-content/uploads/2020/10/hinh-nen-mau-xanh-luc.jpg" style="width:50px;height:50px;border-radius:100px" />
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
                 
                 `;
                 }
@@ -260,7 +274,7 @@
                 </div>
             </div>
         </div> -->
-        <div class="small text-center text-muted" style="padding-bottom: 30px">Nhóm 7 - Quiz Game Assginment</div>
+
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
@@ -293,5 +307,48 @@
                 $('.dropdown').hide(300);
             });
         </script>
+        <footer class="footer">
+            <div class="footer__addr">
+                <h1 class="footer__logo" style="color: #59ab6e; font-size: 40px">Quiz Game</h1>
+
+                <h2>Contact</h2>
+
+                <address>
+                    Nhóm 7 - Quiz Game Assginment<br />
+
+                    <a class="footer__btn" href="mailto:example@gmail.com">Email Us</a>
+                </address>
+            </div>
+
+            <ul class="footer__nav" style="margin-left: 300px">
+                <li class="nav__item">
+                    <br />
+                    <br />
+                    <h2 class="nav__title">Contract</h2>
+
+                    <ul class="nav__ul">
+                        <li>
+                            <a href="#">Group7 support: 0987654321</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Email: group7vippro123@gmail.com</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Alternative Ads</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="legal">
+                <p>&copy; 2021 QuizGame. All rights reserved.</p>
+
+                <div class="legal__links">
+                    <span>Made with <span class="heart">♥</span> remotely from Anywhere</span>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

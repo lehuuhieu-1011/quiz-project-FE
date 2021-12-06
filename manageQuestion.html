@@ -8,7 +8,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
         <!-- Bootstrap Icons-->
 
         <!-- Google fonts-->
@@ -28,8 +28,8 @@
     </head>
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family: Wire One; margin-left: 150px">Quiz Game</a>
             <div class="container">
-                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,7 +40,7 @@
                                 class="nav-link"
                                 data-toggle="modal"
                                 data-target="#createModal"
-                                style="font-size: 20px; color: #59ab6e; cursor: pointer; margin-top: 5px"
+                                style="font-size: 20px; color: #59ab6e; cursor: pointer; margin-top: 22px"
                                 >Create Quiz</a
                             >
                         </li>
@@ -50,9 +50,27 @@
                 </div>
             </div>
         </nav>
+        <div class="modal fade" id="delete" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 400px; height: 300px">
+                    <form>
+                        <h1 class="modal__title" style="color: #59ab6e; text-align: center">Delete</h1>
+                        <p class="modal__description" style="text-align: center">Do you want to delete?</p>
+
+                        <div class="modal-body" style="margin-left: 20px; margin-top: 50px">
+                            <button onclick="funcRemove()" class="custom-btn btn-13" style="width: 150px">Yes</button>
+                            <button class="custom-btn btn-13" style="width: 150px" data-dismiss="modal" aria-hidden="true">No</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div id="loader"></div>
-
+        <div style="margin-top: 100px">
+            <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+        </div>
         <div class="template-code"></div>
 
         <div class="small text-center text-muted">Nhóm 7 - Quiz Game Assginment</div>
@@ -60,8 +78,9 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
             (async function () {
+                // localStorage.removeItem('idQuestionDelete');
                 const template_code = document.querySelector('.template-code');
-                const id = localStorage.getItem('id');
+                const id = localStorage.getItem('idCourse');
                 // localStorage.removeItem('id');
 
                 const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
@@ -75,7 +94,7 @@
 
                 var index = 0;
                 if (data.length == 0) {
-                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Null</h1>`;
+                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Don't have question</h1>`;
                     return;
                 }
                 template_code.innerHTML = `
@@ -99,11 +118,11 @@
                             <div class="shadow-md">
                                 <div class="text-center"></div>
                                 <div class="h4 font-weight-bold" style="font-size: 20px">
-                                <a onclick=funcRemove(${x.id})>
+                                <a style="cursor: pointer;" onclick="funcRemove(${x.id})">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25px" style="color:#59ab6e;margin-left:90%" height="25px" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16" >
                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                 </svg></a>
-                                <a onclick='funcEdit(${x.id})' data-toggle="modal" data-target="#myModal">
+                                <a onclick='funcEdit(${x.id})' data-toggle="modal" data-target="#myModal"  style="cursor: pointer;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style="color:#59ab6e;margin-left:5px" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -182,6 +201,9 @@
         </script>
 
         <script>
+            function deleteClick(id) {
+                localStorage.setItem('idQuestionDelete', id);
+            }
             const infoUser = document.querySelector('.infoUser');
             if (localStorage.getItem('username') == null) {
                 //         infoUser.innerHTML = `
@@ -190,12 +212,28 @@
                 // `;
             } else {
                 infoUser.innerHTML = `
-                <li class="nav-item"><a class="nav-link" style="font-size: 20px; color: #59ab6e"  href="./quiz.html" onclick="logout()">Logout &nbsp</a></li>
-                <li class="nav-item"><a style="color:#59ab6e;font-weight: bold;font-size: 20px" >Username&nbsp:&nbsp${localStorage.getItem('username')}</a></li>
+               <li >
+        <li class="drop"><img  src="https://anhdep123.com/wp-content/uploads/2020/10/hinh-nen-mau-xanh-luc.jpg" style="width:50px;height:50px;border-radius:100px" />
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
         `;
             }
         </script>
-
+        <script>
+            $('.drop').mouseover(function () {
+                $('.dropdown').show(300);
+            });
+            $('.drop').mouseleave(function () {
+                $('.dropdown').hide(300);
+            });
+        </script>
         <script type="application/javascript">
             function logout() {
                 localStorage.clear();
@@ -212,7 +250,7 @@
                 }
 
                 var scores = 0;
-                const id = localStorage.getItem('id');
+                const id = localStorage.getItem('idCourse');
 
                 const api = `https://quiz-project.azurewebsites.net/admin/course/${id}`;
                 const response = await axios(api);
@@ -257,10 +295,18 @@
                 window.location.replace('./quiz.html');
             }
 
-            async function funcRemove(id) {
+            function funcRemove(id) {
+                // const id = localStorage.getItem('idQuestionDelete');
+                console.log(id);
                 const apiUrl = `https://quiz-project.azurewebsites.net/admin/deleteQuestion/${id}`;
-                await axios.delete(apiUrl).catch((error) => console.log(error));
-                location.assign('./manageQuestion.html');
+                axios({
+                    method: 'delete',
+                    url: apiUrl,
+                })
+                    .then(() => {
+                        location.assign('./manageQuestion.html');
+                    })
+                    .catch((error) => console.log(error));
             }
 
             async function funcEdit(id) {
@@ -373,7 +419,7 @@
                                         <input type="text" class="username" name="create_point" />
                                         <label>Point</label>
                                     </div>
-                                    <img class="create-modal-img" src="" width="100px" />
+                                    <img class="create-modal-img" src="" />
                                     <input type="file" name="file" class="create_image" />
                                     <br />
                                     <button class="custom-btn btn-13" style="margin-top: 20px" type="submit">Submit</button>
@@ -412,7 +458,7 @@
                     console.log(error);
                 }
                 const idQuestion = localStorage.getItem('id-question');
-                const idCourse = localStorage.getItem('id');
+                const idCourse = localStorage.getItem('idCourse');
                 var imageUrl = '';
                 if (imageFile != null) {
                     const { url } = await axios
@@ -480,7 +526,7 @@
                 const point = createModalForm.create_point.value;
                 // const urlImage = document.querySelector('.modal-img').src;
                 const imageFile = document.querySelector('.create_image').files[0];
-                const idCourse = localStorage.getItem('id');
+                const idCourse = localStorage.getItem('idCourse');
 
                 var imageUrl = '';
                 if (imageFile != null) {
@@ -536,5 +582,15 @@
                 }
             })();
         </script>
+        <div class="modal fade" id="loginModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 600px; height: 450px">
+                    <form>
+                        <h1 class="modal__title" style="color: #59ab6e; text-align: center">Login</h1>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

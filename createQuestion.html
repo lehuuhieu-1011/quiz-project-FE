@@ -34,8 +34,9 @@ and open the template in the editor.
 
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family:Wire One;margin-left: 150px">Quiz Game</a>
             <div class="container">
-                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,10 +50,12 @@ and open the template in the editor.
                 </div>
             </div>
         </nav>
-
+<div style="margin-top: 70px">
+                <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+            </div>
         <div class="new-form"></div>
 
-        <div style="padding-bottom: 50px; margin-top: 100px">
+        <div style="padding-bottom: 50px; margin-top: 10px">
             <button class="custom-btn btn-13" style="margin-left: 39%" onclick="removeForm()">Remove</button>
             <button class="custom-btn btn-13" style="margin-left: 30px" onclick="addForm()">+</button>
             <button class="custom-btn btn-13" id="btnSubmit" style="margin-left: 30px" onclick="submitForm()">Submit</button>

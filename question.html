@@ -8,7 +8,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
         <!-- Bootstrap Icons-->
 
         <!-- Google fonts-->
@@ -18,26 +18,28 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./css/styleProfile.css" rel="stylesheet" />
-        <link href="./css/stylesProfile.css" rel="stylesheet" />
+
         <title>Question Page</title>
     </head>
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family: Wire One; margin-left: 150px">Quiz Game</a>
             <div class="container">
-                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li id="time001" class="navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
-                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e; margin-left: 1000px"></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div id="loader"></div>
-
+        <div style="margin-top: 50px">
+            <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+        </div>
         <div class="template-code"></div>
 
         <div class="modal" tabindex="-1">
@@ -77,7 +79,7 @@
                 loader.style.display = 'none';
                 var index = 0;
                 if (data.length == 0) {
-                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Null</h1>`;
+                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Don't have question</h1>`;
                     return;
                 }
                 template_code.innerHTML = `
@@ -152,12 +154,12 @@
                             </div>
                     `;
                 });
-                var minutes = 1;
-                var seconds = 30;
+                var minutes = 15;
+                var seconds = 0;
 
                 function timer001() {
                     seconds -= 1;
-                    if (seconds == 0) {
+                    if (seconds <= 0) {
                         minutes -= 1;
                         if (minutes >= 0) {
                             seconds = 59;
@@ -186,12 +188,28 @@
                 // `;
             } else {
                 infoUser.innerHTML = `
-               <a class="nav-link"  style="color:#59ab6e" href="./quiz.html" onclick="logout()">Logout &nbsp</a>
-                <div>Username&nbsp:&nbsp${localStorage.getItem('username')}</div>
+               <li >
+        <li class="drop"><img  src="https://anhdep123.com/wp-content/uploads/2020/10/hinh-nen-mau-xanh-luc.jpg" style="width:50px;height:50px;border-radius:100px" />
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
         `;
             }
         </script>
-
+        <script>
+            $('.drop').mouseover(function () {
+                $('.dropdown').show(300);
+            });
+            $('.drop').mouseleave(function () {
+                $('.dropdown').hide(300);
+            });
+        </script>
         <script type="application/javascript">
             function logout() {
                 localStorage.clear();

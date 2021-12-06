@@ -8,7 +8,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
         <!-- Bootstrap Icons-->
 
         <!-- Google fonts-->
@@ -17,27 +17,28 @@
         <!-- SimpleLightbox plugin CSS-->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="./css/styleProfile.css" rel="stylesheet" />
-        <link href="./css/stylesProfile.css" rel="stylesheet" />
+
         <title>Question Page</title>
     </head>
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family: Wire One; margin-left: 150px">Quiz Game</a>
             <div class="container">
-                <a class="navbar-brand" href="./quiz.html" style="font-size: 30px; color: #59ab6e">Quiz Game</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: #59ab6e; margin-left: 1000px"></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div id="loader"></div>
-
+        <div style="margin-top: 70px">
+            <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+        </div>
         <div class="template-code"></div>
 
         <div class="modal" tabindex="-1">
@@ -80,7 +81,7 @@
                     template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Null</h1>`;
                     return;
                 }
-                const timeDone = 90 - localStorage.getItem('secondsSubmit');
+                const timeDone = 900 - localStorage.getItem('secondsSubmit');
                 const minutesDone = Math.floor(timeDone / 60);
                 const secondsDone = timeDone - minutesDone * 60;
 
@@ -105,7 +106,7 @@
                     <div class="body"></div>
 
                     <button onclick="submit()" class="custom-btn btn-6" style="border-radius: 10px; margin-left: 1200px; height: 50px; width: 200px; background: linear-gradient(45deg,   #59ab6e 0%,rgba(66, 245, 189,0.4) 100%);">
-                        <span> Submit</span>
+                        <span> Return home</span>
                     </button>
                     <div style="padding: 50px"></div>
                     `;
@@ -126,7 +127,7 @@
                                     <div class="h4 font-weight-bold" style="font-size: 20px">
                                         ${
                                             x.image == '' || x.image == null
-                                                ? `<div class="h4 font-weight-bold" style="font-size: 20px">${index}. ${x.question}</div>`
+                                                ? `<div class="h4 font-weight-bold" style="font-size: 25px">${index}. ${x.question}</div>`
                                                 : `<div class="box">
                                                 <img src="${x.image}" alt="${x.image}" width="100px" style="padding-right: 10px"/>
                                                 <span>${index}. ${x.question}</span>
@@ -139,7 +140,7 @@
                                             ${
                                                 x.answerA == ''
                                                     ? ''
-                                                    : `<label class="options" style="font-size: 15px"
+                                                    : `<label class="options" style="font-size: 20px"
                                                 >${x.answerA} <input type="radio" name="radio" id="${x.id}" value="${x.answerA}" ${
                                                           x.answerA == answer.get(`${x.id}`) ? `checked` : ''
                                                       } /> <span class="checkmark"></span>
@@ -149,7 +150,7 @@
                                             ${
                                                 x.answerB == ''
                                                     ? ''
-                                                    : `<label class="options" style="font-size: 15px"
+                                                    : `<label class="options" style="font-size: 20px"
                                                 >${x.answerB} <input type="radio" name="radio" id="${x.id}" value="${x.answerB}" ${
                                                           x.answerB == answer.get(`${x.id}`) ? `checked` : ''
                                                       }/> <span class="checkmark"></span>
@@ -159,7 +160,7 @@
                                             ${
                                                 x.answerC == ''
                                                     ? ''
-                                                    : `<label class="options" style="font-size: 15px"
+                                                    : `<label class="options" style="font-size: 20px"
                                                 >${x.answerC} <input type="radio" name="radio" id="${x.id}" value="${x.answerC}" ${
                                                           x.answerC == answer.get(`${x.id}`) ? `checked` : ''
                                                       }/> <span class="checkmark"></span>
@@ -169,7 +170,7 @@
                                             ${
                                                 x.answerD == ''
                                                     ? ''
-                                                    : `<label class="options" style="font-size: 15px"
+                                                    : `<label class="options" style="font-size: 20px"
                                                 >${x.answerD} <input type="radio" name="radio" id="${x.id}" value="${x.answerD}" ${
                                                           x.answerD == answer.get(`${x.id}`) ? `checked` : ''
                                                       }/> <span class="checkmark"></span>
@@ -185,8 +186,8 @@
                                 <div class="wrapper3" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ; width: 1000px;; background-color: white; border-radius: 7px">
                                 <div class="shadow-md">
                                     <div class="text-center"></div>
-                                    <div class="h4 font-weight-bold" style="font-size: 20px">
-                                     <h3>Correct Anwser: ${x.correct_Answer}</h3>
+                                    <div class="h4 font-weight-bold" style="font-size: 30px">
+                                     <h5>Correct Anwser: ${x.correct_Answer}</h5>
                                     </div>
                         `;
                 });
@@ -205,12 +206,28 @@
                 // `;
             } else {
                 infoUser.innerHTML = `
-               <a class="nav-link"  style="color:#59ab6e" href="./quiz.html" onclick="logout()">Logout &nbsp</a>
-                <div>Username&nbsp:&nbsp${localStorage.getItem('username')}</div>
+              <li >
+        <li class="drop"><img  src="https://anhdep123.com/wp-content/uploads/2020/10/hinh-nen-mau-xanh-luc.jpg" style="width:50px;height:50px;border-radius:100px" />
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
         `;
             }
         </script>
-
+        <script>
+            $('.drop').mouseover(function () {
+                $('.dropdown').show(300);
+            });
+            $('.drop').mouseleave(function () {
+                $('.dropdown').hide(300);
+            });
+        </script>
         <script type="application/javascript">
             function logout() {
                 localStorage.clear();
