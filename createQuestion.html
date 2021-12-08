@@ -34,9 +34,8 @@ and open the template in the editor.
 
     <body style="background: white">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: white">
-            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family:Wire One;margin-left: 150px">Quiz Game</a>
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: #59ab6e; font-family: Wire One; margin-left: 150px">Quiz Game</a>
             <div class="container">
-               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,9 +49,9 @@ and open the template in the editor.
                 </div>
             </div>
         </nav>
-<div style="margin-top: 70px">
-                <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
-            </div>
+        <div style="margin-top: 70px">
+            <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+        </div>
         <div class="new-form"></div>
 
         <div style="padding-bottom: 50px; margin-top: 10px">
@@ -197,23 +196,26 @@ and open the template in the editor.
                 await Promise.all(
                     questions.map((question) =>
                         (async function (question) {
-                            const { url } = await axios
-                                .get('https://upload-image-123.azurewebsites.net/')
-                                .then((res) => res.data)
-                                .catch((error) => console.log(error));
-                            console.log(url);
+                            var imageUrl = '';
+                            if (question.file !== '') {
+                                const { url } = await axios
+                                    .get('https://upload-image-123.azurewebsites.net/')
+                                    .then((res) => res.data)
+                                    .catch((error) => console.log(error));
+                                console.log(url);
 
-                            // post the image directly to the s3 bucket
-                            await axios(url, {
-                                method: 'put',
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                                data: question.file,
-                            });
+                                // post the image directly to the s3 bucket
+                                await axios(url, {
+                                    method: 'put',
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data',
+                                    },
+                                    data: question.file,
+                                });
 
-                            const imageUrl = url.split('?')[0];
-                            console.log('0');
+                                imageUrl = url.split('?')[0];
+                                console.log('0');
+                            }
 
                             const urlApi = 'https://quiz-project.azurewebsites.net/admin/addQuestion';
                             await axios(urlApi, {
@@ -228,6 +230,7 @@ and open the template in the editor.
                                     answerC: question.answerC,
                                     answerD: question.answerD,
                                     correct_Answer: question.correctAnswer,
+                                    point: question.point,
                                     image: imageUrl,
                                     coursesQuiz: {
                                         id: idCourse,
@@ -238,7 +241,6 @@ and open the template in the editor.
                         })(question)
                     )
                 );
-                console.log('1');
                 localStorage.removeItem('id-course');
                 location.assign('./manageQuiz.html');
             }
