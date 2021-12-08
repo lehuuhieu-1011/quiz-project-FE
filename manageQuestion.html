@@ -514,6 +514,7 @@
             createUrlImage.onchange = (e) => {
                 const [file] = createUrlImage.files;
                 if (file) {
+                    document.querySelector('.create-modal-img').setAttribute('width', '100px');
                     document.querySelector('.create-modal-img').src = URL.createObjectURL(file);
                 }
             };
